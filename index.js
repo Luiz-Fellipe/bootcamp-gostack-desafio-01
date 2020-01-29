@@ -14,6 +14,7 @@ server.use((req,res, next) =>{
   next();
 })
 
+//Middleware para verificar se o projeto existe
 function checkProjectExists(req, res, next){
   const { id } = req.params;
 
@@ -28,6 +29,7 @@ function checkProjectExists(req, res, next){
   next();
 }
 
+//ROTAS
 server.get('/projects',(req, res) => {
   return res.json(projects);
 })
@@ -40,12 +42,11 @@ server.post('/projects', (req, res) => {
     title,
     tasks: []
   })
-  return res.json(projects);
+
+  return res.status(201).json(projects);
 });
 
-
 server.put('/projects/:id',checkProjectExists,  (req, res) => {
-  
   const { title } = req.body;
 
   projects[req.index].title = title;
@@ -54,7 +55,6 @@ server.put('/projects/:id',checkProjectExists,  (req, res) => {
 })
 
 server.delete('/projects/:id',checkProjectExists,(req,res) => {
- 
   projects.splice(req.index, 1);
   
   return res.json(projects);
