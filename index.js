@@ -5,14 +5,14 @@ const server = express();
 server.use(express.json());
 
 const projects = [];
-let qtdReqs = 0;
 
 //Middleware global
-server.use((req,res, next) =>{
-  qtdReqs++;
-  console.log(`Foram feitas ${qtdReqs} requisições.`);
-  next();
-})
+function logRequests(req,res, next){
+  console.count(`Número de requisições`);
+  return next();
+}
+
+server.use(logRequests);
 
 //Middleware para verificar se o projeto existe
 function checkProjectExists(req, res, next){
